@@ -27,29 +27,24 @@ public class CampaignStatsService {
     }
 
     public CampaignStats getStats(Long campaignId) {
+
         Campaign campaign = campaignRepository.findById(campaignId).get();
 
-        List<Voucher> vouchers = voucherRepository.findByCampaignId(campaignId);
+        long redeemed = redemptionRepository.countByCampaignId(campaignId);
 
-        int redeemed = 0;
-        int active = 0;
-
-        for (Voucher v : vouchers) {
-            if (!redemptionRepository.findByVoucherId(v.getId()).isEmpty()) {
-                redeemed++;
-            }
-            if ("ACTIVE".equals(v.getStatus())) {
-                active++;
-            }
-        }
+        long active = voucherRepository.countByCampaignIdAndStatus(
+                campaignId,
+                "ACTIVE"
+        );
 
         CampaignStats stats = new CampaignStats();
         stats.setCampaignId(campaign.getId());
         stats.setName(campaign.getName());
         stats.setTotalStock(campaign.getTotalStock());
         stats.setRemainingStock(campaign.getRemainingStock());
-        stats.setRedeemedCount(redeemed);
-        stats.setActiveVoucherCount(active);
+        stats.setRedeemedCount((int) redeemed);
+        stats.setActiveVoucherCount((int) active);
+
         return stats;
     }
 
