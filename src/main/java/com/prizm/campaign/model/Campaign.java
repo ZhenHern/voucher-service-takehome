@@ -20,6 +20,9 @@ public class Campaign {
     @Column(name = "remaining_stock")
     private int remainingStock;
 
+    @Column(name = "user_redemption_limit", nullable = false)
+    private int userRedemptionLimit;
+
     private boolean active;
 
     public Long getId() { return id; }
@@ -34,4 +37,8 @@ public class Campaign {
     public void setRemainingStock(int remainingStock) { this.remainingStock = remainingStock; }
     public boolean isActive() { return active; }
     public void setActive(boolean active) { this.active = active; }
+
+    public int getUserRedemptionLimit() { return userRedemptionLimit; }
+
+    public void setUserRedemptionLimit(int userRedemptionLimit) { this.userRedemptionLimit = userRedemptionLimit; }
 }

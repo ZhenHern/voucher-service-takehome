@@ -11,6 +11,9 @@ CREATE TABLE campaign (
     active          BOOLEAN      NOT NULL DEFAULT TRUE
 );
 
+ALTER TABLE campaign
+ADD COLUMN user_redemption_limit INT NOT NULL DEFAULT 2;
+
 CREATE TABLE voucher (
     id          BIGINT PRIMARY KEY,
     campaign_id BIGINT       NOT NULL,
@@ -26,4 +29,21 @@ CREATE TABLE redemption (
     campaign_id BIGINT      NOT NULL,
     user_id     VARCHAR(80) NOT NULL,
     created_at  TIMESTAMP   NOT NULL
+);
+
+CREATE TABLE user_campaign_redemption (
+    campaign_id       BIGINT      NOT NULL,
+    user_id           VARCHAR(80) NOT NULL,
+    redemption_count  INT         NOT NULL DEFAULT 0,
+    updated_at        TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP
+                                  ON UPDATE CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (campaign_id, user_id),
+
+    CONSTRAINT fk_ucr_campaign
+            FOREIGN KEY (campaign_id)
+        REFERENCES campaign(id),
+
+    CONSTRAINT chk_ucr_count
+        CHECK (redemption_count >= 0)
 );
