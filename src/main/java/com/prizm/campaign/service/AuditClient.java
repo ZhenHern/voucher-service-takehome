@@ -25,7 +25,7 @@ public class AuditClient {
         payload.put("userId", userId);
         payload.put("apiKey", API_KEY);
 
-        restTemplate.postForObject(AUDIT_URL, payload, String.class);
+//        restTemplate.postForObject(AUDIT_URL, payload, String.class);
         log.info("audit event sent for {}", voucherCode);
     }
 }
