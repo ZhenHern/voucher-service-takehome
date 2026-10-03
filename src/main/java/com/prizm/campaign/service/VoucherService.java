@@ -54,9 +54,7 @@ public class VoucherService {
             return RedeemResponse.fail("Voucher is void");
         }
 
-        Campaign campaign = campaignRepository
-                .findById(voucher.getCampaignId())
-                .orElse(null);
+        Campaign campaign = voucher.getCampaign();
 
         if (campaign == null) {
             return RedeemResponse.fail("Campaign not found");
@@ -136,8 +134,8 @@ public class VoucherService {
         // =========================================================
 
         Redemption redemption = new Redemption(
-                voucher.getId(),
-                campaign.getId(),
+                voucher,
+                campaign,
                 userId,
                 new Date()
         );

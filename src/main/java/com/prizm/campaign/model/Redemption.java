@@ -11,11 +11,13 @@ public class Redemption {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "voucher_id")
-    private Long voucherId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "voucher_id", nullable = false)
+    private Voucher voucher;
 
-    @Column(name = "campaign_id")
-    private Long campaignId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "campaign_id", nullable = false)
+    private Campaign campaign;
 
     @Column(name = "user_id")
     private String userId;
@@ -25,16 +27,18 @@ public class Redemption {
 
     public Redemption() {}
 
-    public Redemption(Long voucherId, Long campaignId, String userId, Date createdAt) {
-        this.voucherId = voucherId;
-        this.campaignId = campaignId;
+    public Redemption(Voucher voucher, Campaign campaign, String userId, Date createdAt) {
+        this.voucher = voucher;
+        this.campaign = campaign;
         this.userId = userId;
         this.createdAt = createdAt;
     }
 
     public Long getId() { return id; }
-    public Long getVoucherId() { return voucherId; }
-    public Long getCampaignId() { return campaignId; }
+    public Voucher getVoucher() { return voucher; }
+    public void setVoucher(Voucher voucher) { this.voucher = voucher; }
+    public Campaign getCampaign() { return campaign; }
+    public void setCampaign(Campaign campaign) { this.campaign = campaign; }
     public String getUserId() { return userId; }
     public Date getCreatedAt() { return createdAt; }
 }

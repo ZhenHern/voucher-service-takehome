@@ -10,8 +10,9 @@ public class Voucher {
     @Id
     private Long id;
 
-    @Column(name = "campaign_id")
-    private Long campaignId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "campaign_id", nullable = false)
+    private Campaign campaign;
 
     private String code;
 
@@ -26,8 +27,8 @@ public class Voucher {
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
-    public Long getCampaignId() { return campaignId; }
-    public void setCampaignId(Long campaignId) { this.campaignId = campaignId; }
+    public Campaign getCampaign() {  return campaign; }
+    public void setCampaign(Campaign campaign) { this.campaign = campaign; }
     public String getCode() { return code; }
     public void setCode(String code) { this.code = code; }
     public String getStatus() { return status; }

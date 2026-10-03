@@ -2,6 +2,9 @@ package com.prizm.campaign.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "campaign")
 public class Campaign {
@@ -22,6 +25,12 @@ public class Campaign {
 
     @Column(name = "user_redemption_limit", nullable = false)
     private int userRedemptionLimit;
+
+    @OneToMany(mappedBy = "campaign")
+    private List<Voucher> vouchers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "campaign")
+    private List<Redemption> redemptions = new ArrayList<>();
 
     private boolean active;
 
