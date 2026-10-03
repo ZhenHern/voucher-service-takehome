@@ -15,10 +15,13 @@ INSERT INTO voucher (id, campaign_id, code, status, redeemed_by, redeemed_at) VA
   (8, 1, 'RAYA-0008', 'ACTIVE', NULL, NULL),
   (9, 1, 'RAYA-0009', 'ACTIVE', NULL, NULL),
   (10, 1, 'RAYA-0010', 'ACTIVE', NULL, NULL),
-  (11, 2, 'MRDK-0001', 'ACTIVE', NULL, NULL),
-  (12, 2, 'MRDK-0002', 'ACTIVE', NULL, NULL),
-  (13, 3, 'EXPD-0001', 'ACTIVE', NULL, NULL),
-  (14, 4, 'OOS-0001', 'ACTIVE', NULL, NULL);
+  (11, 1, 'RAYA-CONCURRENT-01', 'ACTIVE', NULL, NULL),
+  (12, 1, 'RAYA-CONCURRENT-02', 'ACTIVE', NULL, NULL),
+  (13, 1, 'RAYA-CONCURRENT-03', 'ACTIVE', NULL, NULL),
+  (14, 2, 'MRDK-0001', 'ACTIVE', NULL, NULL),
+  (15, 2, 'MRDK-0002', 'ACTIVE', NULL, NULL),
+  (16, 3, 'EXPD-0001', 'ACTIVE', NULL, NULL),
+  (17, 4, 'OOS-0001', 'ACTIVE', NULL, NULL);
 
 INSERT INTO redemption (voucher_id, campaign_id, user_id, created_at) VALUES
   (4, 1, 'user-99', '2026-06-01 10:15:00'),

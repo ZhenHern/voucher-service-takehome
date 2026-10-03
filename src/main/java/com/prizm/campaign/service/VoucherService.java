@@ -98,15 +98,49 @@ public class VoucherService {
 
         } else {
 
-            UserCampaignRedemption counter =
-                    new UserCampaignRedemption();
+            // No counter row exists yet.
+            // Lock the campaign row so only one pod can initialize
+            // the counter for this campaign at a time.
+            campaignRepository.findWithLockById(campaign.getId());
 
-            counter.setCampaignId(campaign.getId());
-            counter.setUserId(userId);
-            counter.setRedemptionCount(1);
-            counter.setUpdatedAt(new Date());
+            // Re-check after acquiring the campaign lock.
+            // Another request may have created the row while we were waiting.
+            existing =
+                    userCampaignRedemptionRepository.findForUpdate(
+                            campaign.getId(),
+                            userId
+                    );
 
-            userCampaignRedemptionRepository.save(counter);
+            if (existing.isPresent()) {
+
+                UserCampaignRedemption counter = existing.get();
+
+                if (counter.getRedemptionCount()
+                        >= campaign.getUserRedemptionLimit()) {
+
+                    return RedeemResponse.fail(
+                            "User has reached the redemption limit for this campaign"
+                    );
+                }
+
+                counter.setRedemptionCount(
+                        counter.getRedemptionCount() + 1
+                );
+
+                userCampaignRedemptionRepository.save(counter);
+
+            } else {
+
+                UserCampaignRedemption counter =
+                        new UserCampaignRedemption();
+
+                counter.setCampaignId(campaign.getId());
+                counter.setUserId(userId);
+                counter.setRedemptionCount(1);
+                counter.setUpdatedAt(new Date());
+
+                userCampaignRedemptionRepository.save(counter);
+            }
         }
 
         // =========================================================
